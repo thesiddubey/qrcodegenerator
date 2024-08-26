@@ -25,11 +25,11 @@ def generate_qr_code(data, file_type):
         version=1,
         error_correction=qrcode.constants.ERROR_CORRECT_L,
         box_size=10,
-        border=4,
+        border=0,  # No extra border from QR code generation
     )
     qr.add_data(data)
     qr.make(fit=True)
-    img = qr.make_image(image_factory=factory)
+    img = qr.make_image(fill='black', back_color='white', image_factory=factory)
 
     # Add a black border around the QR code
     if file_type == 'SVG':
