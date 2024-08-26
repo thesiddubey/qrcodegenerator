@@ -9,15 +9,10 @@
 import streamlit as st
 from generate_qr import generate_qr_code  # Import the QR code generator function
 
-# HTML to include favicon and set the title
-st.markdown(
-    """
-    <head>
-        <link rel="icon" href="icon.ico" type="image/x-icon">
-        <title>QR Code Generator</title>
-    </head>
-    """,
-    unsafe_allow_html=True
+# Set the page configuration
+st.set_page_config(
+    page_title="QR Code Generator",  # Title in the browser tab
+    page_icon="https://github.com/thesiddubey/qrcodegenerator/blob/master/icon.ico",  # URL to the favicon
 )
 
 # Streamlit app
