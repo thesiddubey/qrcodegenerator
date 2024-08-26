@@ -74,4 +74,14 @@ st.markdown(
     unsafe_allow_html=True
 )
 
+# HTML code to set the title
+st.markdown(
+    """
+    <title>QR Code Generator</title>
+    """,
+    unsafe_allow_html=True
+)
+
 st.title("QR Code Generator")
+
+
