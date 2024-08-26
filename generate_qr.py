@@ -18,7 +18,7 @@ def generate_qr_code(data, file_type):
     if file_type == 'SVG':
         factory = qrcode.image.svg.SvgImage
     else:
-        factory = None  # Use default PNG or JPG format
+        factory = None  # Use default PNG format
 
     # Generate the QR code
     qr = qrcode.QRCode(
@@ -39,14 +39,13 @@ def generate_qr_code(data, file_type):
         # Convert to PIL Image to add border
         if not isinstance(img, Image.Image):
             img = img.convert("RGB")
-        bordered_img = ImageOps.expand(img, border=10, fill='black')  # Add black border
-        from io import BytesIO
+        bordered_img = ImageOps.expand(img, border=20, fill='black')  # Add black border
         buf = BytesIO()
         bordered_img.save(buf, format=file_type.upper())
         qr_code_data = buf.getvalue()
 
     return qr_code_data
-
+    
 # Test the QR code generation
 def save_qr_code(data, file_type):
     qr_code_data = generate_qr_code(data, file_type)
