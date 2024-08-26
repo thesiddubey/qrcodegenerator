@@ -1,0 +1,11 @@
+######################
+# QR Code Generator  #
+#  requirements.txt  #
+#  Siddhartha Dubey  #
+# GitHub:thesiddubey #
+#    August 2024     #
+######################
+
+streamlit
+qrcode
+qrcode[pil]  # This includes Pillow, which is required for image handling
