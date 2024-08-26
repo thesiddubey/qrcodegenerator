@@ -39,7 +39,10 @@ def generate_qr_code(data, file_type):
         # Convert to PIL Image to add border
         if not isinstance(img, Image.Image):
             img = img.convert("RGB")
-        bordered_img = ImageOps.expand(img, border=2, fill='black')  # Add black border
+            
+        img_with_black_border = ImageOps.expand(img, border=2, fill='black')  # Add black border
+        img_with_white_border = ImageOps.expand(img_with_black_border, border=4, fill='white')
+        
         buf = BytesIO()
         bordered_img.save(buf, format=file_type.upper())
         qr_code_data = buf.getvalue()
