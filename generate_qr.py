@@ -31,23 +31,27 @@ def generate_qr_code(data, file_type):
     qr.make(fit=True)
     img = qr.make_image(fill='black', back_color='white', image_factory=factory)
 
+    # Convert to PIL Image if not already
+    if not isinstance(img, Image.Image):
+        img = img.convert("RGB")
+
     # Add a black border around the QR code
+    img_with_black_border = ImageOps.expand(img, border=2, fill='black')
+
+    # Add a white border around the black border
+    img_with_white_border = ImageOps.expand(img_with_black_border, border=2, fill='white')
+
+    # Save the image based on file type
+    buf = BytesIO()
     if file_type == 'SVG':
-        # For SVG, no need to handle borders differently
-        qr_code_data = img
+        # For SVG, no need for additional handling
+        qr_code_data = img_with_white_border
     else:
-        # Convert to PIL Image to add border
-        if not isinstance(img, Image.Image):
-            img = img.convert("RGB")
-            
-        img_with_black_border = ImageOps.expand(img, border=2, fill='black')  # Add black border
-        img_with_white_border = ImageOps.expand(img_with_black_border, border=4, fill='white')
-        
-        buf = BytesIO()
-        bordered_img.save(buf, format=file_type.upper())
+        img_with_white_border.save(buf, format=file_type.upper())
         qr_code_data = buf.getvalue()
 
     return qr_code_data
+
     
 # Test the QR code generation
 def save_qr_code(data, file_type):
