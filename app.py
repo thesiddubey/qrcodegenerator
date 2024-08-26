@@ -12,7 +12,7 @@ from generate_qr import generate_qr_code  # Import the QR code generator functio
 # Set the page configuration
 st.set_page_config(
     page_title="QR Code Generator",  # Title in the browser tab
-    page_icon="https://github.com/thesiddubey/qrcodegenerator/blob/master/icon.ico",  # URL to the favicon
+    page_icon="https://raw.githubusercontent.com/thesiddubey/qrcodegenerator/master/a4bbd98d-cb67-4474-ad00-e1dad8d81b59.jpg",  # URL to the favicon
 )
 
 # Streamlit app
