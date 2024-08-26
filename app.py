@@ -48,7 +48,7 @@ st.markdown(
     .footer {
         position: fixed;
         bottom: 0;
-        left: 0;
+        left: 0;  /* Aligns footer to the left */
         padding: 10px;
         font-size: 14px;
         color: #4d4e4e;
@@ -79,5 +79,3 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
-
-
