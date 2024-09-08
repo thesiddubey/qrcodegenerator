@@ -15,8 +15,14 @@ from PIL import Image, ImageOps
 
 
 def generate_qr_code(data, file_type):
+    # Ensure file_type is set to a valid string, and handle edge cases
+    if not file_type:
+        raise ValueError("File type is not specified.")
+    
+    file_type = file_type.upper()
+
     # Set the factory to create the image format based on file_type
-    if file_type.upper() == 'SVG':
+    if file_type == 'SVG':
         factory = qrcode.image.svg.SvgImage
     else:
         factory = None  # Use default for raster formats like PNG or JPG
@@ -32,8 +38,8 @@ def generate_qr_code(data, file_type):
     qr.make(fit=True)
     img = qr.make_image(fill='black', back_color='white', image_factory=factory)
 
-    # Skip conversion for SVG since it's not a raster image
-    if file_type.upper() != 'SVG':
+    # Skip conversion and borders for SVG since it's a vector image
+    if file_type != 'SVG':
         # Convert to PIL Image if necessary
         if not isinstance(img, Image.Image):
             img = img.convert("RGB")
@@ -46,7 +52,7 @@ def generate_qr_code(data, file_type):
 
         # Save the image based on file type
         buf = BytesIO()
-        img_with_white_border.save(buf, format=file_type.upper())
+        img_with_white_border.save(buf, format=file_type)
         qr_code_data = buf.getvalue()
     else:
         # For SVG, no need for additional handling
