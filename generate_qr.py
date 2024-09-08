@@ -6,6 +6,7 @@
 #    August 2024     #
 ######################
 
+
 import qrcode
 import qrcode.image.svg
 from io import BytesIO
@@ -15,10 +16,10 @@ from PIL import Image, ImageOps
 
 def generate_qr_code(data, file_type):
     # Set the factory to create the image format based on file_type
-    if file_type == 'SVG':
+    if file_type.upper() == 'SVG':
         factory = qrcode.image.svg.SvgImage
     else:
-        factory = None  # Use default PNG format
+        factory = None  # Use default for raster formats like PNG or JPG
 
     # Generate the QR code
     qr = qrcode.QRCode(
@@ -31,23 +32,26 @@ def generate_qr_code(data, file_type):
     qr.make(fit=True)
     img = qr.make_image(fill='black', back_color='white', image_factory=factory)
 
-    # Convert to PIL Image if not already
-    if not isinstance(img, Image.Image):
-        img = img.convert("RGB")
+    # Skip conversion for SVG since it's not a raster image
+    if file_type.upper() != 'SVG':
+        # Convert to PIL Image if necessary
+        if not isinstance(img, Image.Image):
+            img = img.convert("RGB")
 
-    # Add a black border around the QR code
-    img_with_black_border = ImageOps.expand(img, border=2, fill='black')
+        # Add a black border around the QR code
+        img_with_black_border = ImageOps.expand(img, border=2, fill='black')
 
-    # Add a white border around the black border
-    img_with_white_border = ImageOps.expand(img_with_black_border, border=2, fill='white')
+        # Add a white border around the black border
+        img_with_white_border = ImageOps.expand(img_with_black_border, border=2, fill='white')
 
-    # Save the image based on file type
-    buf = BytesIO()
-    if file_type == 'SVG':
-        # For SVG, no need for additional handling
-        qr_code_data = img_with_white_border
-    else:
+        # Save the image based on file type
+        buf = BytesIO()
         img_with_white_border.save(buf, format=file_type.upper())
+        qr_code_data = buf.getvalue()
+    else:
+        # For SVG, no need for additional handling
+        buf = BytesIO()
+        img.save(buf)
         qr_code_data = buf.getvalue()
 
     return qr_code_data
